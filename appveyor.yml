@@ -6,7 +6,7 @@ before_build:
 - cmd: nuget restore
 
 artifacts:
-  - path: .\PandaSharp.Bamboo\bin\Release
+  - path: .\PandaSharp.Framework\bin\Release
     name: PandaSharp
 
 test_script:
