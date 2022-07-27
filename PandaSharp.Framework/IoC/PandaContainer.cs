@@ -8,7 +8,7 @@ using PandaSharp.Framework.IoC.Injections;
 
 namespace PandaSharp.Framework.IoC
 {
-    internal sealed class PandaContainer : IPandaContainer
+    public sealed class PandaContainer : IPandaContainer
     {
         private readonly Dictionary<Type, IInstanceFactory> _registeredFactories;
 
@@ -44,6 +44,11 @@ namespace PandaSharp.Framework.IoC
             RegisterSingleInstance<T>(() => customFactoryMethod());
         }
 
+        public void RegisterInstance<T>(T instance)
+        {
+            RegisterCreatedInstance(instance);
+        }
+
         public T Resolve<T>(params InjectionBase[] injectedInformation)
         {
             return (T)ResolveInstance(typeof(T), injectedInformation);
@@ -62,6 +67,16 @@ namespace PandaSharp.Framework.IoC
             }
 
             _registeredFactories.Add(typeof(T), new SingleInstanceFactory(factoryMethod));
+        }
+
+        private void RegisterCreatedInstance<T>(T instance)
+        {
+            if (_registeredFactories.ContainsKey(typeof(T)))
+            {
+                throw new InvalidOperationException($"Registration for {typeof(T)} already found!");
+            }
+
+            _registeredFactories.Add(typeof(T), new CreatedInstanceFactory(instance));
         }
 
         private void RegisterMultipleInstance<T>(Func<object> factoryMethod)

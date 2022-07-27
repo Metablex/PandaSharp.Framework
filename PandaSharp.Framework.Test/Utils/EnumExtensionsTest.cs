@@ -15,33 +15,21 @@ namespace PandaSharp.Framework.Test.Utils
             var memberStringA = TestEnum.TestMemberA.GetEnumStringRepresentation();
             memberStringA.ShouldBe("TestMeA");
 
-            var memberStringB = TestFlagsEnum.TestMemberA.GetEnumStringRepresentation();
+            var memberStringB = TestEnum.TestMemberB.GetEnumStringRepresentation();
             memberStringB.ShouldBeNull();
         }
 
         [Test]
-        public void AddEnumMemberTest()
+        public void GetEnumMemberTest()
         {
-            Should.Throw<InvalidOperationException>(() =>
-            {
-                var result = (TestEnum?)TestEnum.TestMemberA;
-                result.AddEnumMember(TestEnum.TestMemberB);
-            });
+            var memberA = "TestMeA".GetEnumMember(typeof(TestEnum));
+            memberA.ShouldBe(TestEnum.TestMemberA);
+            
+            var memberB = "TestMemberB".GetEnumMember(typeof(TestEnum));
+            memberB.ShouldBeNull();
 
-            var flagsResult = (TestFlagsEnum?)TestFlagsEnum.TestMemberA;
-
-            flagsResult.AddEnumMember(TestFlagsEnum.TestMemberB);
-            flagsResult.ShouldBe(TestFlagsEnum.TestMemberA | TestFlagsEnum.TestMemberB);
-
-            flagsResult.AddEnumMember(TestFlagsEnum.TestMemberC);
-            flagsResult.ShouldBe(TestFlagsEnum.TestMemberA | TestFlagsEnum.TestMemberB | TestFlagsEnum.TestMemberC);
-
-            flagsResult.AddEnumMember(TestFlagsEnum.TestMemberA);
-            flagsResult.ShouldBe(TestFlagsEnum.TestMemberA | TestFlagsEnum.TestMemberB | TestFlagsEnum.TestMemberC);
-
-            var nullFlagsResult = (TestFlagsEnum?)null;
-            nullFlagsResult.AddEnumMember(TestFlagsEnum.TestMemberB);
-            nullFlagsResult.ShouldBe(TestFlagsEnum.TestMemberB);
+            var memberC = "Bla".GetEnumMember(typeof(string));
+            memberC.ShouldBeNull();
         }
 
         private enum TestEnum
@@ -49,18 +37,7 @@ namespace PandaSharp.Framework.Test.Utils
             [StringRepresentation("TestMeA")]
             TestMemberA,
 
-            [StringRepresentation("TestMeB")]
             TestMemberB
-        }
-
-        [Flags]
-        private enum TestFlagsEnum
-        {
-            TestMemberA = 1 << 0,
-
-            TestMemberB = 1 << 1,
-
-            TestMemberC = 1 << 2
         }
     }
 }

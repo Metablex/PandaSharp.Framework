@@ -11,7 +11,6 @@ namespace PandaSharp.Framework
         public void RegisterModule(IPandaContainer container)
         {
             container.RegisterType<IRequestParameterAspectFactory, RequestParameterAspectFactory>();
-            container.RegisterSingletonType<IRestOptions, RestOptions>();
             container.RegisterSingletonType<IRestSerializer, RestRequestSerializer>();
             container.RegisterSingletonType<IRestFactory, RestFactory>();
         }

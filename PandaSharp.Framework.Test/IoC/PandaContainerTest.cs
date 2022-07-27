@@ -26,6 +26,10 @@ namespace PandaSharp.Framework.Test.IoC
             container.RegisterType<ParameterizedConstructorTest, ParameterizedConstructorTest>();
 
             Should.Throw<InvalidOperationException>(() => container.Resolve<ParameterizedConstructorTest>());
+            
+            container.RegisterType<IRegistrationTest, RegistrationTest>();
+            
+            Should.Throw<InvalidOperationException>(() => container.RegisterInstance<IRegistrationTest>(new RegistrationTest()));
         }
 
         [Test]
@@ -101,6 +105,17 @@ namespace PandaSharp.Framework.Test.IoC
 
             var anotherInstance = container.Resolve<IRegistrationTest>();
             anotherInstance.ShouldBeSameAs(instance);
+        }
+
+        [Test]
+        public void CreatedInstanceRegistrationTest()
+        {
+            var instance = new RegistrationTest { Name = "Name", Value = "Test" };
+            var container = new PandaContainer();
+            container.RegisterInstance<IRegistrationTest>(instance);
+
+            var actualInstance = container.Resolve<IRegistrationTest>();
+            actualInstance.ShouldBe(instance);
         }
 
         [Test]

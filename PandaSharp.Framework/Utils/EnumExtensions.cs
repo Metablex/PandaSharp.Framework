@@ -5,7 +5,7 @@ using PandaSharp.Framework.Attributes;
 
 namespace PandaSharp.Framework.Utils
 {
-    internal static class EnumExtensions
+    public static class EnumExtensions
     {
         public static string GetEnumStringRepresentation<T>(this T enumeration)
             where T : struct, Enum
@@ -21,22 +21,26 @@ namespace PandaSharp.Framework.Utils
             return attribute?.AsString;
         }
 
-        public static void AddEnumMember<T>(this ref T? summand1, T summand2)
-            where T : struct, Enum
+        public static object GetEnumMember(this string enumString, Type enumType)
         {
-            if (!Attribute.IsDefined(typeof(T), typeof(FlagsAttribute)))
+            if (!enumType.IsEnum)
             {
-                throw new InvalidOperationException("This operation is only valid for enums with Flags attribute");
+                return null;
+            }
+            
+            foreach (var member in enumType.GetMembers().Where(i => i.MemberType == MemberTypes.Field))
+            {
+                var attribute = member.GetCustomAttribute<StringRepresentationAttribute>(false);
+                if (attribute != null)
+                {
+                    if (StringComparer.OrdinalIgnoreCase.Equals(enumString, attribute.AsString))
+                    {
+                        return Enum.Parse(enumType, member.Name);
+                    }
+                }
             }
 
-            if (!summand1.HasValue)
-            {
-                summand1 = summand2;
-                return;
-            }
-
-            var result = Convert.ToInt32(summand1) | Convert.ToInt32(summand2);
-            summand1 = (T)Enum.ToObject(typeof(T), result);
+            return null;
         }
     }
 }

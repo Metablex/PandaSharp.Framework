@@ -35,14 +35,11 @@ namespace PandaSharp.Framework.Test.Rest.Common
                 .SetupGet(i => i.BaseUrl)
                 .Returns("http://test.company.com");
 
-            var authentication = new Mock<IRestAuthentication>();
-            authentication
-                .Setup(i => i.CreateAuthenticator())
-                .Returns(new HttpBasicAuthenticator("TestUser", "TestPassword"));
+            var authenticator = new Mock<IAuthenticator>();
 
             restOptions
-                .Setup(i => i.Authentication)
-                .Returns(authentication.Object);
+                .Setup(i => i.Authenticator)
+                .Returns(authenticator.Object);
 
             var serializer = new Mock<IRestSerializer>();
             serializer
@@ -60,8 +57,7 @@ namespace PandaSharp.Framework.Test.Rest.Common
             var client = factory.CreateClient();
 
             client.ShouldNotBeNull();
-            client.Authenticator.ShouldNotBeNull();
-            client.Authenticator.ShouldBeOfType<HttpBasicAuthenticator>();
+            client.Authenticator.ShouldBe(authenticator.Object);
             client.BaseUrl.ShouldBe(new Uri("http://test.company.com"));
 
             serializer.Verify();

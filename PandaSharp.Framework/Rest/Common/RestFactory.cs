@@ -19,7 +19,7 @@ namespace PandaSharp.Framework.Rest.Common
         {
             var client = new RestClient(_restOptions.BaseUrl)
             {
-                Authenticator = _restOptions.Authentication.CreateAuthenticator()
+                Authenticator = _restOptions.Authenticator
             };
 
             client.UseSerializer(() => _serializer);

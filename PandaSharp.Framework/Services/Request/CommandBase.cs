@@ -20,7 +20,7 @@ namespace PandaSharp.Framework.Services.Request
         {
             var client = CreateRestClient();
             var request = BuildRequest();
-            var response = await client.ExecuteTaskAsync(request, cancellationToken);
+            var response = await client.ExecuteAsync(request, cancellationToken);
 
             if (!response.IsSuccessful)
             {
