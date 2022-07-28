@@ -6,7 +6,7 @@ using RestSharp.Serialization;
 
 namespace PandaSharp.Framework
 {
-    internal sealed class FrameworkModule : IPandaCoreModule
+    internal sealed class FrameworkModule : IPandaContainerModule
     {
         public void RegisterModule(IPandaContainer container)
         {

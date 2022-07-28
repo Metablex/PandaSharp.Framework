@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using PandaSharp.Framework.IoC;
 using PandaSharp.Framework.IoC.Contract;
 using PandaSharp.Framework.Rest.Common;
 using PandaSharp.Framework.Rest.Contract;
@@ -12,18 +11,12 @@ namespace PandaSharp.Framework.Utils
 {
     public static class PandaContainerExtensions
     {
-        public static void RegisterPandaModules(this IPandaContainer container, IPandaContainerContext context)
+        public static void RegisterPandaModules(this IPandaContainer container)
         {
-            var coreModules = GetAllImplementationsOf<IPandaCoreModule>();
-            foreach (var coreModule in coreModules)
+            var containerModules = GetAllImplementationsOf<IPandaContainerModule>();
+            foreach (var containerModule in containerModules)
             {
-                coreModule.RegisterModule(container);
-            }
-
-            var contextBasedModules = GetAllImplementationsOf<IPandaContextModule>();
-            foreach (var contextBasedModule in contextBasedModules)
-            {
-                contextBasedModule.RegisterModule(container, context);
+                containerModule.RegisterModule(container);
             }
         }
 
@@ -47,11 +40,6 @@ namespace PandaSharp.Framework.Utils
             var options = new RestOptions(baseUrl, authentication);
             
             container.RegisterInstance<IRestOptions>(options);
-        }
-
-        public static IRequestProviderRegistration<T> RequestRegistrationFor<T>(this IPandaContainer container)
-        {
-            return new RequestProviderRegistration<T>(container);
         }
 
         private static IEnumerable<T> GetAllImplementationsOf<T>()
