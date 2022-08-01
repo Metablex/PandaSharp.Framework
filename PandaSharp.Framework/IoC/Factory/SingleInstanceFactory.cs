@@ -12,7 +12,7 @@ namespace PandaSharp.Framework.IoC.Factory
         {
         }
 
-        public override object CreateInstance(params InjectionBase[] injectedInformation)
+        public override object CreateInstance(params InjectProperty[] injectedInformation)
         {
             return _instance ??= ConstructObject(injectedInformation);
         }

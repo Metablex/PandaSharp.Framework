@@ -49,12 +49,12 @@ namespace PandaSharp.Framework.IoC
             RegisterCreatedInstance(instance);
         }
 
-        public T Resolve<T>(params InjectionBase[] injectedInformation)
+        public T Resolve<T>(params InjectProperty[] injectedInformation)
         {
             return (T)ResolveInstance(typeof(T), injectedInformation);
         }
 
-        public object Resolve(Type type, params InjectionBase[] injectedInformation)
+        public object Resolve(Type type, params InjectProperty[] injectedInformation)
         {
             return ResolveInstance(type, injectedInformation);
         }
@@ -89,7 +89,7 @@ namespace PandaSharp.Framework.IoC
             _registeredFactories.Add(typeof(T), new MultipleInstanceFactory(factoryMethod));
         }
 
-        private object ResolveInstance(Type type, params InjectionBase[] injectedInformation)
+        private object ResolveInstance(Type type, params InjectProperty[] injectedInformation)
         {
             if (_registeredFactories.TryGetValue(type, out var factory))
             {

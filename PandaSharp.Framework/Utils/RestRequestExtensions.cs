@@ -8,7 +8,7 @@ namespace PandaSharp.Framework.Utils
     {
         public static IRestRequest AddParameterIfSet(this IRestRequest restRequest, string parameter, string value)
         {
-            if (value != null)
+            if (!value.IsNullOrEmpty())
             {
                 return restRequest.AddQueryParameter(parameter, value);
             }
@@ -59,7 +59,7 @@ namespace PandaSharp.Framework.Utils
 
         public static IRestRequest AddNotEncodedParameterIfSet(this IRestRequest restRequest, string parameter, string value)
         {
-            if (value != null)
+            if (!value.IsNullOrEmpty())
             {
                 return restRequest.AddQueryParameter(parameter, value, false);
             }
@@ -77,7 +77,7 @@ namespace PandaSharp.Framework.Utils
             if (values.Count > 0)
             {
                 var parameterValues = string.Join(",", values);
-                return restRequest.AddParameter(parameter, parameterValues);
+                return restRequest.AddQueryParameter(parameter, parameterValues);
             }
 
             return restRequest;
@@ -93,7 +93,7 @@ namespace PandaSharp.Framework.Utils
             if (values.Count > 0)
             {
                 var parameterValues = string.Join(",", values);
-                return restRequest.AddParameter(parameter, parameterValues);
+                return restRequest.AddQueryParameter(parameter, parameterValues);
             }
 
             return restRequest;

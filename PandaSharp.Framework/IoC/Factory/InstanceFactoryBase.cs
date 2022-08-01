@@ -17,9 +17,9 @@ namespace PandaSharp.Framework.IoC.Factory
             _factoryMethod = factoryMethod;
         }
 
-        public abstract object CreateInstance(params InjectionBase[] injectedInformation);
+        public abstract object CreateInstance(params InjectProperty[] injectedInformation);
 
-        protected object ConstructObject(params InjectionBase[] injectedInformation)
+        protected object ConstructObject(params InjectProperty[] injectedInformation)
         {
             var instance = _factoryMethod();
 
@@ -28,13 +28,11 @@ namespace PandaSharp.Framework.IoC.Factory
             return instance;
         }
 
-        private static void InjectProperties(object instance, IEnumerable<InjectionBase> injectedInformation)
+        private static void InjectProperties(object instance, IEnumerable<InjectProperty> injectedInformation)
         {
-            var injectedProperties = injectedInformation
-                .OfType<InjectProperty>()
-                .ToDictionary(p => p.PropertyName, p => p.PropertyValue);
+            var injectedProperties = injectedInformation.ToDictionary(p => p.PropertyName, p => p.PropertyValue);
 
-            if (!injectedProperties.Any())
+            if (injectedProperties.Count == 0)
             {
                 return;
             }

@@ -12,7 +12,7 @@ namespace PandaSharp.Framework.IoC.Factory
             _instance = instance;
         }
 
-        public object CreateInstance(params InjectionBase[] injectedInformation)
+        public object CreateInstance(params InjectProperty[] injectedInformation)
         {
             return _instance;
         }

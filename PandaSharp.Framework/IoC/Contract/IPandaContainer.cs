@@ -17,8 +17,8 @@ namespace PandaSharp.Framework.IoC.Contract
 
         void RegisterInstance<T>(T instance);
 
-        T Resolve<T>(params InjectionBase[] injectedInformation);
+        T Resolve<T>(params InjectProperty[] injectedInformation);
 
-        object Resolve(Type type, params InjectionBase[] injectedInformation);
+        object Resolve(Type type, params InjectProperty[] injectedInformation);
     }
 }

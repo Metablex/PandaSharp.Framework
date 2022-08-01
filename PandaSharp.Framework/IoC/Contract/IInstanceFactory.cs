@@ -4,6 +4,6 @@ namespace PandaSharp.Framework.IoC.Contract
 {
     internal interface IInstanceFactory
     {
-        object CreateInstance(params InjectionBase[] injectedInformation);
+        object CreateInstance(params InjectProperty[] injectedInformation);
     }
 }
