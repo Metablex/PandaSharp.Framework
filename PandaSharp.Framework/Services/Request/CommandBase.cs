@@ -26,7 +26,7 @@ namespace PandaSharp.Framework.Services.Request
             {
                 if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {
-                    throw new UnauthorizedAccessException("Unable to authenticate. Please check your credentials.");
+                    throw new UnauthorizedAccessException("Unable to authenticate or insufficient rights. Please check your credentials.");
                 }
 
                 throw new InvalidOperationException($"Error retrieving response: {response.GetErrorResponseMessage()}");
