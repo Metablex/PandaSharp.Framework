@@ -1,6 +1,6 @@
 namespace PandaSharp.Framework.IoC.Injections
 {
-    public sealed class InjectProperty : InjectionBase
+    public sealed class InjectProperty
     {
         public string PropertyName { get; }
 

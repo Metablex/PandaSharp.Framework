@@ -1,6 +1,6 @@
 namespace PandaSharp.Framework.IoC.Contract
 {
-    public interface IPandaCoreModule
+    public interface IPandaContainerModule
     {
         void RegisterModule(IPandaContainer container);
     }

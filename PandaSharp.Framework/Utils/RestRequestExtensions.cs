@@ -1,46 +1,99 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using RestSharp;
 
 namespace PandaSharp.Framework.Utils
 {
     public static class RestRequestExtensions
     {
-        public static IRestRequest AddParameterIfSet(this IRestRequest restRequest, string parameter, object value)
+        public static IRestRequest AddParameterIfSet(this IRestRequest restRequest, string parameter, string value)
         {
-            return restRequest.AddParameterIfSet(parameter, value, ParameterType.QueryString);
+            if (!value.IsNullOrEmpty())
+            {
+                return restRequest.AddQueryParameter(parameter, value);
+            }
+
+            return restRequest;
+        }
+        
+        public static IRestRequest AddParameterIfSet(this IRestRequest restRequest, string parameter, DateTime? value)
+        {
+            if (value != null)
+            {
+                return restRequest.AddQueryParameter(parameter, value.Value.ToString("yyyy-MM-ddTHH:mm:ss"));
+            }
+
+            return restRequest;
         }
 
-        public static IRestRequest AddNotEncodedParameterIfSet(this IRestRequest restRequest, string parameter, object value)
+        public static IRestRequest AddParameterIfSet(this IRestRequest restRequest, string parameter, int? value)
         {
-            return restRequest.AddParameterIfSet(parameter, value, ParameterType.QueryStringWithoutEncode);
+            if (value != null)
+            {
+                return restRequest.AddQueryParameter(parameter, value.Value.ToString());
+            }
+
+            return restRequest;
         }
 
-        public static IRestRequest AddParameterValues(this IRestRequest restRequest, string parameter, IEnumerable<string> values)
+        public static IRestRequest AddParameterIfSet(this IRestRequest restRequest, string parameter, bool? value)
+        {
+            if (value != null)
+            {
+                return restRequest.AddQueryParameter(parameter, value.Value.ToString());
+            }
+
+            return restRequest;
+        }
+
+        public static IRestRequest AddParameterIfSet<T>(this IRestRequest restRequest, string parameter, T? enumValue)
+            where T : struct, Enum
+        {
+            if (enumValue != null)
+            {
+                return restRequest.AddQueryParameter(parameter, enumValue.Value.GetEnumStringRepresentation());
+            }
+
+            return restRequest;
+        }
+
+        public static IRestRequest AddNotEncodedParameterIfSet(this IRestRequest restRequest, string parameter, string value)
+        {
+            if (!value.IsNullOrEmpty())
+            {
+                return restRequest.AddQueryParameter(parameter, value, false);
+            }
+
+            return restRequest;
+        }
+
+        public static IRestRequest AddParameterValues(this IRestRequest restRequest, string parameter, ICollection<string> values)
         {
             if (values == null)
             {
                 return restRequest;
             }
 
-            var validValues = values
-                .Where(value => !value.IsNullOrEmpty())
-                .ToArray();
-
-            if (validValues.Length > 0)
+            if (values.Count > 0)
             {
-                var parameterValues = string.Join(",", validValues);
-                return restRequest.AddParameter(parameter, parameterValues);
+                var parameterValues = string.Join(",", values);
+                return restRequest.AddQueryParameter(parameter, parameterValues);
             }
 
             return restRequest;
         }
 
-        private static IRestRequest AddParameterIfSet(this IRestRequest restRequest, string parameter, object value, ParameterType parameterType)
+        public static IRestRequest AddParameterValues(this IRestRequest restRequest, string parameter, ICollection<int> values)
         {
-            if (value != null)
+            if (values == null)
             {
-                return restRequest.AddParameter(parameter, value, parameterType);
+                return restRequest;
+            }
+
+            if (values.Count > 0)
+            {
+                var parameterValues = string.Join(",", values);
+                return restRequest.AddQueryParameter(parameter, parameterValues);
             }
 
             return restRequest;

@@ -1,26 +1,18 @@
 ﻿using PandaSharp.Framework.Rest.Contract;
+using RestSharp.Authenticators;
 
 namespace PandaSharp.Framework.Rest.Common
 {
     internal sealed class RestOptions : IRestOptions
     {
-        private const string RestApiResource = "/rest/api/latest";
+        public string BaseUrl { get; }
+        
+        public IAuthenticator Authenticator { get; }
 
-        private string _baseUrl;
-
-        public string BaseUrl
+        public RestOptions(string baseUrl, IAuthenticator authenticator)
         {
-            get => _baseUrl;
-            set
-            {
-                _baseUrl = value;
-                if (!_baseUrl.EndsWith(RestApiResource))
-                {
-                    _baseUrl += RestApiResource;
-                }
-            }
+            BaseUrl = baseUrl;
+            Authenticator = authenticator;
         }
-
-        public IRestAuthentication Authentication { get; } = new RestAuthentication();
     }
 }

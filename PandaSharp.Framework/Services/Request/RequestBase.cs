@@ -12,16 +12,19 @@ namespace PandaSharp.Framework.Services.Request
     public abstract class RequestBase<T> : RestCommunicationBase, IRequestBase<T>
         where T : class, new()
     {
-        protected RequestBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory)
+        private readonly IRestResponseConverter _responseConverter;
+
+        protected RequestBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter responseConverter)
             : base(restClientFactory, parameterAspectFactory)
         {
+            _responseConverter = responseConverter;
         }
 
         public async Task<T> ExecuteAsync(CancellationToken cancellationToken)
         {
             var client = CreateRestClient();
             var request = BuildRequest();
-            var response = await client.ExecuteTaskAsync<T>(request, cancellationToken);
+            var response = await client.ExecuteAsync<T>(request, cancellationToken);
 
             if (!response.IsSuccessful)
             {
@@ -33,7 +36,7 @@ namespace PandaSharp.Framework.Services.Request
                 throw new InvalidOperationException($"Error retrieving response: {response.GetErrorResponseMessage()}");
             }
 
-            return response.Data;
+            return _responseConverter.ConvertRestResponse(response);
         }
 
         public Task<T> ExecuteAsync()

@@ -1,9 +1,11 @@
-﻿namespace PandaSharp.Framework.Rest.Contract
+﻿using RestSharp.Authenticators;
+
+namespace PandaSharp.Framework.Rest.Contract
 {
     public interface IRestOptions
     {
-        string BaseUrl { get; set; }
+        string BaseUrl { get; }
 
-        IRestAuthentication Authentication { get; }
+        IAuthenticator Authenticator { get; }
     }
 }

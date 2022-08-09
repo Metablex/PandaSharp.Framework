@@ -20,13 +20,13 @@ namespace PandaSharp.Framework.Services.Request
         {
             var client = CreateRestClient();
             var request = BuildRequest();
-            var response = await client.ExecuteTaskAsync(request, cancellationToken);
+            var response = await client.ExecuteAsync(request, cancellationToken);
 
             if (!response.IsSuccessful)
             {
                 if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {
-                    throw new UnauthorizedAccessException("Unable to authenticate. Please check your credentials.");
+                    throw new UnauthorizedAccessException("Unable to authenticate or insufficient rights. Please check your credentials.");
                 }
 
                 throw new InvalidOperationException($"Error retrieving response: {response.GetErrorResponseMessage()}");

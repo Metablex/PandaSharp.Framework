@@ -15,8 +15,10 @@ namespace PandaSharp.Framework.IoC.Contract
 
         void RegisterSingletonType<T>(Func<T> customFactoryMethod);
 
-        T Resolve<T>(params InjectionBase[] injectedInformation);
+        void RegisterInstance<T>(T instance);
 
-        object Resolve(Type type, params InjectionBase[] injectedInformation);
+        T Resolve<T>(params InjectProperty[] injectedInformation);
+
+        object Resolve(Type type, params InjectProperty[] injectedInformation);
     }
 }

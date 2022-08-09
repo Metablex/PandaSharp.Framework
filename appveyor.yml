@@ -3,7 +3,7 @@ version: '{branch}-{build}'
 configuration: Release
 
 before_build:
-- cmd: nuget restore
+- cmd: dotnet restore
 
 artifacts:
   - path: .\PandaSharp.Framework\bin\Release
