@@ -24,7 +24,7 @@ namespace PandaSharp.Framework.Utils
         {
             var authentication = new HttpBasicAuthenticator(userName, password);
             var options = new RestOptions(baseUrl, authentication);
-            
+
             container.RegisterInstance<IRestOptions>(options);
         }
 
@@ -36,9 +36,16 @@ namespace PandaSharp.Framework.Utils
                 oAuthAccessToken,
                 oAuthTokenSecret,
                 OAuthSignatureMethod.RsaSha1);
-            
+
             var options = new RestOptions(baseUrl, authentication);
-            
+
+            container.RegisterInstance<IRestOptions>(options);
+        }
+
+        public static void RegisterWithCustomAuthentication(this IPandaContainer container, string baseUrl, IAuthenticator authenticator)
+        {
+            var options = new RestOptions(baseUrl, authenticator);
+
             container.RegisterInstance<IRestOptions>(options);
         }
 

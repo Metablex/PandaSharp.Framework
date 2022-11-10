@@ -19,8 +19,7 @@ namespace PandaSharp.Framework.Services.Aspect
         public IList<IRequestParameterAspect> GetParameterAspects(Type type)
         {
             return type
-                .GetCustomAttributes(typeof(SupportsParameterAspectAttribute))
-                .Cast<SupportsParameterAspectAttribute>()
+                .GetCustomAttributes<SupportsParameterAspectAttribute>()
                 .Select(attribute => _container.Resolve(attribute.ParameterAspectType))
                 .OfType<IRequestParameterAspect>()
                 .ToList();
