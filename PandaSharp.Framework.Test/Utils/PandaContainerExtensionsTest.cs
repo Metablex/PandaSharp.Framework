@@ -14,12 +14,12 @@ namespace PandaSharp.Framework.Test.Utils
         [Test]
         public void RegisterWithBasicAuthenticationTest()
         {
-            IRestOptions options = null; 
+            IRestOptions options = null;
             var container = new Mock<IPandaContainer>();
             container
                 .Setup(i => i.RegisterInstance(It.IsAny<IRestOptions>()))
                 .Callback<IRestOptions>(i => options = i);
-            
+
             container.Object.RegisterWithBasicAuthentication("someUrl", "user", "password");
 
             options.ShouldNotBeNull();
@@ -30,17 +30,36 @@ namespace PandaSharp.Framework.Test.Utils
         [Test]
         public void RegisterWithOAuthAuthenticationTest()
         {
-            IRestOptions options = null; 
+            IRestOptions options = null;
             var container = new Mock<IPandaContainer>();
             container
                 .Setup(i => i.RegisterInstance(It.IsAny<IRestOptions>()))
                 .Callback<IRestOptions>(i => options = i);
-            
+
             container.Object.RegisterWithOAuthAuthentication("someUrl", "consumerKey", "consumerSecret", "accessToken", "tokenSecret");
-            
+
             options.ShouldNotBeNull();
             options.BaseUrl.ShouldBe("someUrl");
             options.Authenticator.ShouldBeOfType<OAuth1Authenticator>();
+        }
+
+        [Test]
+        public void RegisterWithCustomAuthenticationTest()
+        {
+            var authenticatorMock = new Mock<IAuthenticator>();
+
+            IRestOptions options = null;
+            var container = new Mock<IPandaContainer>();
+            container
+                .Setup(i => i.RegisterInstance(It.IsAny<IRestOptions>()))
+                .Callback<IRestOptions>(i => options = i);
+
+            container.Object.RegisterWithCustomAuthentication("someUrl", authenticatorMock.Object);
+
+            options.ShouldNotBeNull();
+            options.BaseUrl.ShouldBe("someUrl");
+            options.BaseUrl.ShouldBe("someUrl");
+            options.Authenticator.ShouldBe(authenticatorMock.Object);
         }
     }
 }

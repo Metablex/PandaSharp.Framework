@@ -14,10 +14,10 @@ namespace PandaSharp.Framework.Services.Request
     {
         private readonly IRestResponseConverter _responseConverter;
 
-        protected RequestBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverter responseConverter)
+        protected RequestBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverterFactory responseConverterFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
-            _responseConverter = responseConverter;
+            _responseConverter = responseConverterFactory.CreateResponseConverter(GetType());
         }
 
         public async Task<T> ExecuteAsync(CancellationToken cancellationToken)

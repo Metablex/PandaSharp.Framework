@@ -13,6 +13,7 @@ namespace PandaSharp.Framework
             container.RegisterType<IRequestParameterAspectFactory, RequestParameterAspectFactory>();
             container.RegisterSingletonType<IRestSerializer, RestRequestSerializer>();
             container.RegisterSingletonType<IRestFactory, RestFactory>();
+            container.RegisterSingletonType<IRestResponseConverterFactory, RestResponseConverterFactory>();
         }
     }
 }
