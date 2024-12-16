@@ -5,7 +5,7 @@ namespace PandaSharp.Framework.Rest.Common
 {
     internal sealed class DefaultRestResponseConverter : IRestResponseConverter
     {
-        public T ConvertRestResponse<T>(IRestResponse<T> response)
+        public T ConvertRestResponse<T>(RestResponse<T> response)
         {
             return response.Data;
         }

@@ -1,5 +1,4 @@
 using System;
-using Moq;
 using NUnit.Framework;
 using PandaSharp.Framework.Utils;
 using RestSharp;
@@ -13,28 +12,28 @@ namespace PandaSharp.Framework.Test.Utils
         [Test]
         public void GetErrorResponseMessageTest()
         {
-            var requestMock = new Mock<IRestResponse>();
-            requestMock
-                .SetupGet(i => i.ErrorException)
-                .Returns(new InvalidOperationException("ExpectionError"));
+            var response = new RestResponse
+            {
+                ErrorException = new InvalidOperationException("ExceptionError")
+            };
 
-            var errorMessage = requestMock.Object.GetErrorResponseMessage();
-            errorMessage.ShouldContain("ExpectionError");
+            var errorMessage = response.GetErrorResponseMessage();
+            errorMessage.ShouldContain("ExceptionError");
 
-            requestMock = new Mock<IRestResponse>();
-            requestMock
-                .SetupGet(i => i.ErrorMessage)
-                .Returns("ErrorMessage");
+            response = new RestResponse
+            {
+                ErrorMessage = "ErrorMessage"
+            };
 
-            errorMessage = requestMock.Object.GetErrorResponseMessage();
+            errorMessage = response.GetErrorResponseMessage();
             errorMessage.ShouldBe("ErrorMessage");
 
-            requestMock = new Mock<IRestResponse>();
-            requestMock
-                .SetupGet(i => i.Content)
-                .Returns(@"{""message"":""JsonError""}");
+            response = new RestResponse
+            {
+                Content = """{"message":"JsonError"}"""
+            };
 
-            errorMessage = requestMock.Object.GetErrorResponseMessage();
+            errorMessage = response.GetErrorResponseMessage();
             errorMessage.ShouldBe("JsonError");
         }
     }

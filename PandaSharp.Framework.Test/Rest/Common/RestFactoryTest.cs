@@ -5,7 +5,7 @@ using PandaSharp.Framework.Rest.Common;
 using PandaSharp.Framework.Rest.Contract;
 using RestSharp;
 using RestSharp.Authenticators;
-using RestSharp.Serialization;
+using RestSharp.Serializers;
 using Shouldly;
 
 namespace PandaSharp.Framework.Test.Rest.Common
@@ -20,11 +20,11 @@ namespace PandaSharp.Framework.Test.Rest.Common
                 new Mock<IRestOptions>().Object,
                 new Mock<IRestSerializer>().Object);
 
-            var request = factory.CreateRequest("TestResource", Method.PUT);
+            var request = factory.CreateRequest("TestResource", Method.Put);
 
             request.ShouldNotBeNull();
             request.Resource.ShouldBe("TestResource");
-            request.Method.ShouldBe(Method.PUT);
+            request.Method.ShouldBe(Method.Put);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace PandaSharp.Framework.Test.Rest.Common
                 .Verifiable();
 
             serializer
-                .SetupGet(i => i.SupportedContentTypes)
+                .SetupGet(i => i.AcceptedContentTypes)
                 .Returns(new[] { "application/json" })
                 .Verifiable();
 
@@ -57,8 +57,8 @@ namespace PandaSharp.Framework.Test.Rest.Common
             var client = factory.CreateClient();
 
             client.ShouldNotBeNull();
-            client.Authenticator.ShouldBe(authenticator.Object);
-            client.BaseUrl.ShouldBe(new Uri("http://test.company.com"));
+            client.Options.Authenticator.ShouldBe(authenticator.Object);
+            client.Options.BaseUrl.ShouldBe(new Uri("http://test.company.com"));
 
             serializer.Verify();
         }

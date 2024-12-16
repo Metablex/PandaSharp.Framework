@@ -26,7 +26,7 @@ namespace PandaSharp.Framework.Services.Request
 
         protected abstract Method GetRequestMethod();
 
-        protected virtual void ApplyToRestRequest(IRestRequest restRequest)
+        protected virtual void ApplyToRestRequest(RestRequest restRequest)
         {
         }
 
@@ -35,7 +35,7 @@ namespace PandaSharp.Framework.Services.Request
             return _restFactory.CreateClient();
         }
 
-        protected IRestRequest BuildRequest()
+        protected RestRequest BuildRequest()
         {
             var restRequest = _restFactory.CreateRequest(GetResourcePath(), GetRequestMethod());
 

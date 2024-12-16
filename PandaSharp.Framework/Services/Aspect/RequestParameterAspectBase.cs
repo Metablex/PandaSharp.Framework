@@ -4,6 +4,6 @@ namespace PandaSharp.Framework.Services.Aspect
 {
     public abstract class RequestParameterAspectBase : IRequestParameterAspect
     {
-        public abstract void ApplyToRestRequest(IRestRequest restRequest);
+        public abstract void ApplyToRestRequest(RestRequest restRequest);
     }
 }

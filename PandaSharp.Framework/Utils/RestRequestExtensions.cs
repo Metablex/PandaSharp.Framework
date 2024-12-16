@@ -6,7 +6,7 @@ namespace PandaSharp.Framework.Utils
 {
     public static class RestRequestExtensions
     {
-        public static IRestRequest AddParameterIfSet(this IRestRequest restRequest, string parameter, string value)
+        public static RestRequest AddParameterIfSet(this RestRequest restRequest, string parameter, string value)
         {
             if (!value.IsNullOrEmpty())
             {
@@ -15,8 +15,8 @@ namespace PandaSharp.Framework.Utils
 
             return restRequest;
         }
-        
-        public static IRestRequest AddParameterIfSet(this IRestRequest restRequest, string parameter, DateTime? value)
+
+        public static RestRequest AddParameterIfSet(this RestRequest restRequest, string parameter, DateTime? value)
         {
             if (value != null)
             {
@@ -26,7 +26,7 @@ namespace PandaSharp.Framework.Utils
             return restRequest;
         }
 
-        public static IRestRequest AddParameterIfSet(this IRestRequest restRequest, string parameter, int? value)
+        public static RestRequest AddParameterIfSet(this RestRequest restRequest, string parameter, int? value)
         {
             if (value != null)
             {
@@ -36,7 +36,7 @@ namespace PandaSharp.Framework.Utils
             return restRequest;
         }
 
-        public static IRestRequest AddParameterIfSet(this IRestRequest restRequest, string parameter, bool? value)
+        public static RestRequest AddParameterIfSet(this RestRequest restRequest, string parameter, bool? value)
         {
             if (value != null)
             {
@@ -46,7 +46,7 @@ namespace PandaSharp.Framework.Utils
             return restRequest;
         }
 
-        public static IRestRequest AddParameterIfSet<T>(this IRestRequest restRequest, string parameter, T? enumValue)
+        public static RestRequest AddParameterIfSet<T>(this RestRequest restRequest, string parameter, T? enumValue)
             where T : struct, Enum
         {
             if (enumValue != null)
@@ -57,7 +57,7 @@ namespace PandaSharp.Framework.Utils
             return restRequest;
         }
 
-        public static IRestRequest AddNotEncodedParameterIfSet(this IRestRequest restRequest, string parameter, string value)
+        public static RestRequest AddNotEncodedParameterIfSet(this RestRequest restRequest, string parameter, string value)
         {
             if (!value.IsNullOrEmpty())
             {
@@ -67,7 +67,7 @@ namespace PandaSharp.Framework.Utils
             return restRequest;
         }
 
-        public static IRestRequest AddParameterValues(this IRestRequest restRequest, string parameter, ICollection<string> values)
+        public static RestRequest AddParameterValues(this RestRequest restRequest, string parameter, ICollection<string> values)
         {
             if (values == null)
             {
@@ -83,7 +83,7 @@ namespace PandaSharp.Framework.Utils
             return restRequest;
         }
 
-        public static IRestRequest AddParameterValues(this IRestRequest restRequest, string parameter, ICollection<int> values)
+        public static RestRequest AddParameterValues(this RestRequest restRequest, string parameter, ICollection<int> values)
         {
             if (values == null)
             {

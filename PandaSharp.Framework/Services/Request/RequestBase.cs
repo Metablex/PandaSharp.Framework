@@ -6,6 +6,7 @@ using PandaSharp.Framework.Rest.Contract;
 using PandaSharp.Framework.Services.Aspect;
 using PandaSharp.Framework.Services.Contract;
 using PandaSharp.Framework.Utils;
+using RestSharp;
 
 namespace PandaSharp.Framework.Services.Request
 {
@@ -14,7 +15,10 @@ namespace PandaSharp.Framework.Services.Request
     {
         private readonly IRestResponseConverter _responseConverter;
 
-        protected RequestBase(IRestFactory restClientFactory, IRequestParameterAspectFactory parameterAspectFactory, IRestResponseConverterFactory responseConverterFactory)
+        protected RequestBase(
+            IRestFactory restClientFactory,
+            IRequestParameterAspectFactory parameterAspectFactory,
+            IRestResponseConverterFactory responseConverterFactory)
             : base(restClientFactory, parameterAspectFactory)
         {
             _responseConverter = responseConverterFactory.CreateResponseConverter(GetType());
