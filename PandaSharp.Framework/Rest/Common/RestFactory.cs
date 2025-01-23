@@ -1,10 +1,10 @@
 ﻿using PandaSharp.Framework.Rest.Contract;
 using RestSharp;
-using RestSharp.Serialization;
+using RestSharp.Serializers;
 
 namespace PandaSharp.Framework.Rest.Common
 {
-    internal sealed class RestFactory : IRestFactory
+    public sealed class RestFactory : IRestFactory
     {
         private readonly IRestOptions _restOptions;
         private readonly IRestSerializer _serializer;
@@ -17,16 +17,19 @@ namespace PandaSharp.Framework.Rest.Common
 
         public IRestClient CreateClient()
         {
-            var client = new RestClient(_restOptions.BaseUrl)
+            var options = new RestClientOptions(_restOptions.BaseUrl)
             {
                 Authenticator = _restOptions.Authenticator
             };
 
-            client.UseSerializer(() => _serializer);
+            var client = new RestClient(
+                options,
+                configureSerialization: s => s.UseSerializer(() => _serializer));
+
             return client;
         }
 
-        public IRestRequest CreateRequest(string resource, Method method)
+        public RestRequest CreateRequest(string resource, Method method)
         {
             return new RestRequest(resource, method);
         }

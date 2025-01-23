@@ -5,7 +5,7 @@ namespace PandaSharp.Framework.Utils
 {
     public static class RequestBaseExtensions
     {
-        public static string GetErrorResponseMessage(this IRestResponse response)
+        public static string GetErrorResponseMessage(this RestResponse response)
         {
             if (response.ErrorException != null)
             {

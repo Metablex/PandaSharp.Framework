@@ -6,6 +6,7 @@ using PandaSharp.Framework.Rest.Contract;
 using PandaSharp.Framework.Services.Aspect;
 using PandaSharp.Framework.Services.Contract;
 using PandaSharp.Framework.Utils;
+using RestSharp;
 
 namespace PandaSharp.Framework.Services.Request
 {

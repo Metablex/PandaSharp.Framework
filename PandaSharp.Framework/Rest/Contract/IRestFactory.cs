@@ -6,6 +6,6 @@ namespace PandaSharp.Framework.Rest.Contract
     {
         IRestClient CreateClient();
 
-        IRestRequest CreateRequest(string resource, Method method);
+        RestRequest CreateRequest(string resource, Method method);
     }
 }
