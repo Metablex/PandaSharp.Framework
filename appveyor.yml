@@ -22,7 +22,6 @@ build:
 deploy:
   - provider: NuGet
     name: Push to NuGet
-    api_key:
-      secure: C4Fg0KvfRGU1vZB77tecwdZLXR802JPsP21IgfPb4ZiBJth7esHlJh0D6beIE2Jr
+    api_key: $(NUGET_API_KEY)
     on:
       APPVEYOR_REPO_TAG: true
